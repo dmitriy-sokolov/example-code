@@ -1,0 +1,99 @@
+@import '~zyfra-theme/theme';
+@import '~zyfra-typography/typography';
+
+.gen-tree-navigate-theme(@theme) {
+    @text: extract(@theme, @theme-text);
+    @bg: extract(@theme, @theme-bg);
+    @active: extract(@theme, @theme-active);
+    @type-theme: extract(@theme, @theme-type);
+    @border: extract(@theme, @theme-border);
+    @text-base: if(@type-theme, extract(@text, @color-600), extract(@text, @color-300));    
+    color: @text-base;
+    background-color: if(@type-theme, extract(@bg, @color-100), extract(@bg, @color-700));
+
+    .tree-navigate__item {
+        color: @text-base;
+        border-bottom: @1px solid if(@type-theme, extract(@bg, @color-200), extract(@bg, @color-800));
+
+        &.active {
+            border-left-color: extract(@active, @color-700);
+            background-color: if(@type-theme, extract(@active, @color-50), extract(@bg, @color-900));
+        }
+
+        &.selected {            
+            background-color: if(@type-theme, extract(@active, @color-50), extract(@bg, @color-900));
+        }
+
+        &:hover {
+            background-color: if(@type-theme, extract(@active, @color-50), extract(@bg, @color-900));
+        }
+    }
+}
+
+:host {
+    flex: 1 1 auto;
+    min-height: 0;    
+}
+
+.tree-navigate__item__expander {
+    width: 2.2em;
+
+    > zyfra-mini-button {
+        font-size: .8em;
+    }
+}
+
+.tree-navigate {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    .tp_header7;
+
+    > .tree-navigate__item {
+        user-select: none;
+        border-left: @4px solid transparent;
+        min-height: 0;
+        padding: @8px @8px @8px 0;
+        cursor: pointer;        
+        .tp_header7;
+
+        > span {
+            display: flex;
+            margin-left: 2.2em;
+        }
+
+        &.expended-node span {
+            margin-left: 0;
+        }
+
+        &.active {
+            font-weight: bold;
+        }
+    }
+
+    .tree-navigate__item__caption {
+        align-items: center;
+
+        > zyfra-icon {
+            width: 1.5em;
+            height: 1.5em;
+        }
+
+        > span {
+            padding: 0 @8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .light-theme :host &{
+        .gen-tree-navigate-theme(@light-theme);
+    }
+
+    .dark-theme :host &{
+        .gen-tree-navigate-theme(@dark-theme);
+    }
+}

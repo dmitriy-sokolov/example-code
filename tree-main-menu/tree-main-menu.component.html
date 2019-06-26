@@ -1,0 +1,30 @@
+<mat-tree *mobxAutorun 
+  [dataSource]="dataSource" 
+  [treeControl]="treeControl"
+  class="tree-navigate"
+  #navigateTree
+  >
+  <mat-tree-node *matTreeNodeDef="let node" 
+    class="tree-navigate__item"
+    matTreeNodePadding matTreeNodePaddingIndent="2.2em"
+    [ngClass]="{'active': node.item.id === activeNodeId, 'selected': node.item.id === selectedNodeId, 'expended-node': node.expandable}"
+    [hidden]="node.hidden"
+    (click)="selectNode(node.item.id)"
+    title="{{node.item.name}}"
+    > 
+    <div *ngIf="node.expandable"
+      class="tree-navigate__item__expander"
+      matTreeNodeToggle>
+      <zyfra-mini-button
+          btnType="button"          
+          [btnIconClass]="treeControl.isExpanded(node) ? 'chevrons-down' : 'chevrons-right'"
+      >
+      </zyfra-mini-button> 
+    </div>    
+    <span class="tree-navigate__item__caption">      
+      <zyfra-icon [iconClass]="getNameIcon(node.item.type)"
+      ></zyfra-icon>
+      <span>{{node.item.name}}</span>  
+    </span> 
+  </mat-tree-node>
+</mat-tree>
